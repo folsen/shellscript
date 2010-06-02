@@ -1,0 +1,1 @@
+ifconfig eth1 | grep inet\ addr | grep -v inet6 | awk -F':' '{print $2}' | awk '{print $1}'

@@ -1,0 +1,23 @@
+#!/bin/sh
+ 
+echo -n "Enter IP address: ";  read ip
+echo -n "How many IP addresses do you need: "; read count
+ 
+baseaddr="$(echo $ip | cut -d. -f1-3)"
+lsv="$(echo $ip | cut -d. -f4)"
+ 
+while [ $count -gt 0 ] 
+do
+  myHost="$baseaddr.$lsv"
+ 
+  # ping
+  respns=$(ping -w 1 -c 1 $myHost | grep 'received' | awk -F',' '{ print $2 }' | awk '{ print $1 }')
+  if [ $respns -gt 0 ]; then
+    echo "$baseaddr.$lsv has response!!"
+  fi
+ 
+  lsv=$(( $lsv + 1 ))
+  count=$(( $count - 1 ))
+done
+ 
+exit 0

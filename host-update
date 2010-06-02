@@ -1,0 +1,20 @@
+#!/bin/sh
+count=1
+while [ $count -gt 0 ]
+do
+ ipaddr=`curl -s dns.loopia.se/checkip/checkip.php | sed 's/^.*: \([^<]*\).*$/\1/'`
+ 
+ HOSTS="3h.se www.3h.se futu-risk.com www.futu-risk.com isoftevo.com www.isoftevo.com"
+ 
+ for myHost in $HOSTS
+  do
+  echo "Trying to update $myHost"
+  curl -s --user 'user:pass' "https://dns.loopia.se/XDynDNSServer/XDynDNS.php?hostname=$myHost&myip=$ipaddr&wildcard=on"
+  echo "\n"
+ 
+ done
+ 
+ echo "Waiting 10 minutes"
+ sleep 10m
+ 
+done
